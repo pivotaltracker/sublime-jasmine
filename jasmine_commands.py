@@ -13,7 +13,7 @@ class BaseCommand(sublime_plugin.TextCommand):
 
     def defer(self, fn):
         sublime.status_message("Jasmine: Indexing")
-        self.call(fn) 
+        self.call(fn)
 
     def call(self, fn):
         fn()
@@ -153,7 +153,13 @@ class JSFile(BaseFile):
         return [
             self.file_name.replace(".js", "_spec.js"),
             self.file_name.replace(".js", "-spec.js"),
-            self.file_name.replace(".js", ".spec.js")
+            self.file_name.replace(".js", ".spec.js"),
+            self.file_name.replace(".jsx", "_spec.js"),
+            self.file_name.replace(".jsx", "-spec.js"),
+            self.file_name.replace(".jsx", ".spec.js"),
+            self.file_name.replace(".js.jsx", "_spec.js"),
+            self.file_name.replace(".js.jsx", "-spec.js"),
+            self.file_name.replace(".js.jsx", ".spec.js")
         ]
 
     @classmethod
@@ -162,7 +168,17 @@ class JSFile(BaseFile):
 
 class JasmineFile(BaseFile):
     def possible_alternate_files(self):
-        possible_set = set([self.file_name.replace("_spec.js", ".js"), self.file_name.replace("-spec.js", ".js"), self.file_name.replace(".spec.js", ".js")])
+        possible_set = set([
+          self.file_name.replace("_spec.js", ".js"),
+          self.file_name.replace("-spec.js", ".js"),
+          self.file_name.replace(".spec.js", ".js"),
+          self.file_name.replace("_spec.js", ".jsx"),
+          self.file_name.replace("-spec.js", ".jsx"),
+          self.file_name.replace(".spec.js", ".jsx"),
+          self.file_name.replace("_spec.js", ".js.jsx"),
+          self.file_name.replace("-spec.js", ".js.jsx"),
+          self.file_name.replace(".spec.js", ".js.jsx")
+        ])
         file_name_set = set([self.file_name])
         return list(possible_set - file_name_set)
 
